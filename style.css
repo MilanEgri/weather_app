@@ -62,34 +62,66 @@ padding-bottom: 10px;
     display: flex;
     justify-content: center;
 }
-#cityName{
-    padding-top: 10px;
+#name{
     font-size: 50px;
 }
-#horizontal1{
-    padding-top: 20px;
-    display: flex;
-    justify-content: space-around;
-}
-#celsius{
+#temp{
     font-size: 100px;
 }
 #date{
     font-size: 25px;
 }
-#vertical{
-    display: flex;
-    flex-direction: column;
-    gap: 2px
-}
 #condition
 {
-   padding-left: 30px;
     display: flex; 
    align-items: center;
-   gap: 3px
 }
-#coditionText{
+#text{
     font-size: 25px;
+}
+#minmax{
+    justify-content: center;
+}
+#vertical1{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+#vertical2{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+#horizontal1{
+gap: 90px;
+    display: flex;
+justify-content: center;
+align-items: center;
+}
+#horizontal2{
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid #E5E4E2;
+    margin-left: 5%;
+    margin-right: 5%;
+    font-style: italic;
+}
+.forecast{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.forecastDay{
+
+}
+.forecastIcon{
+
+}
+.forecastMinMax
+{
+    font-size: 15px;
 }
 
