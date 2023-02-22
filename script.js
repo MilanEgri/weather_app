@@ -16,10 +16,10 @@ function workOfSearchElement(chehcked) {
             .then((data) => {
                 for (let i = 0; i < data.length; i++) {
                     if (i === data.length - 1) {
-                        locationsBoxElemnet.insertAdjacentHTML('beforeend', `<button class="location locationBottom" >${data[i].name}, ${data[i].region}, ${data[i].country}</button>`)
+                        locationsBoxElemnet.insertAdjacentHTML('beforeend', `<button class="location locationBottom" id="${data[i].lat},${data[i].lon}" >${data[i].name}, ${data[i].region}, ${data[i].country}</button>`)
 
                     } else {
-                        locationsBoxElemnet.insertAdjacentHTML('beforeend', `<button class=location >${data[i].name}, ${data[i].region}, ${data[i].country}</button>`)
+                        locationsBoxElemnet.insertAdjacentHTML('beforeend', `<button class="location" id="${data[i].lat},${data[i].lon}" >${data[i].name}, ${data[i].region}, ${data[i].country}</button>`)
                     }
                 }
                 searchBorderModifier(chehcked.value.length > 2 && locationsBoxElemnet.innerHTML !== "")
@@ -34,9 +34,8 @@ function workOfSearchElement(chehcked) {
 }
 function clickEvent(event) {
     if (event.target.className == "location" || event.target.className == "location locationBottom") {
-        const countrydata = event.target.textContent.split(`,`)
-        const countryCode = countrydata[0] + ',' + countrydata[2].slice(1, countrydata[2].length)
-        fetch(`http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${countryCode}}`)
+        const countryCode = event.target.id;
+        fetch(`http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${countryCode}`)
             .then((response) => response.json())
             .then((data) => {
                 displayWeather(data);
@@ -76,7 +75,6 @@ function displayWeatherForecast(object) {
     let day = ''
     for (let i = 1; i < 7; i++) {
         day = new Date(object.forecast.forecastday[i].date);
-        console.log(Math.round(object.forecast.forecastday[i].day.mintemp_c) + '°/' + Math.round(object.forecast.forecastday[i].day.maxtemp_c) + '°')
         horizontal2Element.insertAdjacentHTML('beforeend', `<div class="forecast">
         <div class="forecastDay">${String(day).slice(0, 3)}</div>
         <img class="forecastIcon" src=${object.forecast.forecastday[i].day.condition.icon}></img>
@@ -91,13 +89,13 @@ function searchBorderModifier(active) {
         searchMainElement.style.borderBottomRightRadius = '0px';
         searchMainElement.style.borderTopLeftRadius = '12px';
         searchMainElement.style.borderTopRightRadius = '12px';
-        searchMainElement.style.borderBottom = '1px solid black';
+        //searchMainElement.style.borderBottom = '1px solid black';
     }
     else {
         searchMainElement.style.borderBottomLeftRadius = '50px';
         searchMainElement.style.borderBottomRightRadius = '50px';
         searchMainElement.style.borderTopLeftRadius = '50px';
         searchMainElement.style.borderTopRightRadius = '50px';
-        searchMainElement.style.borderBottom = 'none';
+        //searchMainElement.style.borderBottom = 'none';
     }
 }
