@@ -136,4 +136,8 @@ input:focus  {
     padding-bottom: 30px;
     font-size: 40px;
   }
+  .locationBottom{
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+  }
 
