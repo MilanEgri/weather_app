@@ -10,15 +10,21 @@ window.onload = () => {
 function workOfSearchElement(chehcked) {
     const locationsBoxElemnet = document.getElementById('locationsBox')
     if (chehcked.value.length > 2) {
-        locationsBoxElemnet.innerHTML = ""
+        locationsBoxElemnet.innerHTML = "";
         fetch(`https://api.weatherapi.com/v1/search.json?key=${apiKey}&q=${chehcked.value}`)
             .then((response) => response.json())
             .then((data) => {
                 data.forEach(element => {
                     locationsBoxElemnet.insertAdjacentHTML('beforeend', `<button class=location >${element.name}, ${element.region}, ${element.country}</button>`)
+                    searchBorderModifier(chehcked.value.length > 2 && locationsBoxElemnet.innerHTML !== "")
                 });
             });
     }
+    else{
+        locationsBoxElemnet.innerHTML = "";
+        searchBorderModifier(false)
+    }
+
 
 }
 function clickEvent(event) {
@@ -40,6 +46,11 @@ function clickEvent(event) {
             .then((data) => {
                 displayWeatherForecast(data);
             });
+            const locationsBoxElemnet = document.getElementById('locationsBox')
+            locationsBoxElemnet.innerHTML = "";
+            const searchElemnt = document.getElementById('search');
+            searchElemnt.value=""
+            searchBorderModifier(false)
     }
 }
 function displayWeather(object) {
@@ -68,5 +79,23 @@ function displayWeatherForecast(object)
         <img class="forecastIcon" src=${object.forecast.forecastday[i].day.condition.icon}></img>
         <div class="forecastMinMax">${Math.round(object.forecast.forecastday[i].day.mintemp_c)+'°/'+Math.round(object.forecast.forecastday[i].day.maxtemp_c)}</div>
     </div>`)
+    }
+}
+function searchBorderModifier(active){
+    const searchMainElement = document.getElementById('searchmain')
+    if(active)
+    {
+        searchMainElement.style.borderBottomLeftRadius  = '0px';
+        searchMainElement.style.borderBottomRightRadius = '0px';
+        searchMainElement.style.borderTopLeftRadius  = '12px';
+        searchMainElement.style.borderTopRightRadius = '12px';
+        searchMainElement.style.borderBottom = '1px solid black';
+    }
+    else{
+        searchMainElement.style.borderBottomLeftRadius  = '50px';
+        searchMainElement.style.borderBottomRightRadius = '50px';
+        searchMainElement.style.borderTopLeftRadius  = '50px';
+        searchMainElement.style.borderTopRightRadius = '50px';
+        searchMainElement.style.borderBottom = 'none';
     }
 }
