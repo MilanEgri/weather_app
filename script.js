@@ -10,10 +10,10 @@ window.onload = () => {
 function workOfSearchElement(chehcked) {
     const locationsBoxElemnet = document.getElementById('locationsBox')
     if (chehcked.value.length > 2) {
-        locationsBoxElemnet.innerHTML = "";
         fetch(`https://api.weatherapi.com/v1/search.json?key=${apiKey}&q=${chehcked.value}`)
             .then((response) => response.json())
             .then((data) => {
+                locationsBoxElemnet.innerHTML = "";
                 for (let i = 0; i < data.length; i++) {
                     if (i === data.length - 1) {
                         locationsBoxElemnet.insertAdjacentHTML('beforeend', `<button class="location locationBottom" id="${data[i].lat},${data[i].lon}" >${data[i].name}, ${data[i].region}, ${data[i].country}</button>`)
@@ -50,11 +50,7 @@ function clickEvent(event) {
             .then((data) => {
                 displayWeatherForecast(data);
             });
-        const locationsBoxElemnet = document.getElementById('locationsBox')
-        locationsBoxElemnet.innerHTML = "";
-        const searchElemnt = document.getElementById('search');
-        searchElemnt.value = ""
-        searchBorderModifier(false)
+        clearSearch();
     }
 }
 function displayWeather(object) {
@@ -89,13 +85,18 @@ function searchBorderModifier(active) {
         searchMainElement.style.borderBottomRightRadius = '0px';
         searchMainElement.style.borderTopLeftRadius = '12px';
         searchMainElement.style.borderTopRightRadius = '12px';
-        //searchMainElement.style.borderBottom = '1px solid black';
     }
     else {
         searchMainElement.style.borderBottomLeftRadius = '50px';
         searchMainElement.style.borderBottomRightRadius = '50px';
         searchMainElement.style.borderTopLeftRadius = '50px';
         searchMainElement.style.borderTopRightRadius = '50px';
-        //searchMainElement.style.borderBottom = 'none';
     }
+}
+function clearSearch() {
+    const locationsBoxElemnet = document.getElementById('locationsBox')
+    locationsBoxElemnet.innerHTML = "";
+    const searchElemnt = document.getElementById('search');
+    searchElemnt.value = ""
+    searchBorderModifier(false)
 }
