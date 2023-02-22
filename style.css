@@ -140,4 +140,7 @@ input:focus  {
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
   }
+  #searchmain{
+    background-color: #E5E4E2;
+  }
 
