@@ -90,6 +90,7 @@ font-size: 30px;
 }
 #minmax{
     justify-content: center;
+    padding-left: 30px;
 }
 #vertical1{
     display: flex;

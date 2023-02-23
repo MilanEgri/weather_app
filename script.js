@@ -43,7 +43,7 @@ function clickEvent(event) {
         fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${countryCode}&days=1`)
             .then((response) => response.json())
             .then((data) => {
-                displayWeatherIcon(data);
+                displayCurrentMinMax(data);
             });
         fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${countryCode}&days=7`)
             .then((response) => response.json())
@@ -62,8 +62,8 @@ function displayWeather(object) {
     document.getElementById('icon').src = object.current.condition.icon;
     document.getElementById('text').textContent = object.current.condition.text;
 }
-function displayWeatherIcon(object) {
-    document.getElementById('minmax').textContent = object.forecast.forecastday[0].day.mintemp_c + '° / ' + object.forecast.forecastday[0].day.maxtemp_c + '°';
+function displayCurrentMinMax(object) {
+    document.getElementById('minmax').textContent = Math.round(object.forecast.forecastday[0].day.mintemp_c) + '° / ' +Math.round( object.forecast.forecastday[0].day.maxtemp_c) + '°';
 }
 function displayWeatherForecast(object) {
     const horizontal2Element = document.getElementById('horizontal2');
