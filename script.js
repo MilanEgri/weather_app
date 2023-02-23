@@ -38,19 +38,8 @@ function clickEvent(event) {
         fetch(`http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${countryCode}`)
             .then((response) => response.json())
             .then((data) => {
-                let currentHour = Number(data.current.last_updated.split(' ')[1].split(':')[0]);
-                if (currentHour < 7) {
-                    document.getElementById('main-container').style.backgroundImage = "url('night.jpg')";
-                }
-                else if (currentHour > 17) {
-                    document.getElementById('main-container').style.backgroundImage = "url('night.jpg')";
-                }
-                else {
-                    document.getElementById('main-container').style.backgroundImage = "url('day.jpg')";
-
-                }
-                console.log(currentHour);
-                displayWeather(data);
+                backGroundChanger(data)
+                displayWeather(data,event.target.textContent);
             });
         fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${countryCode}&days=1`)
             .then((response) => response.json())
@@ -65,10 +54,11 @@ function clickEvent(event) {
         clearSearch();
     }
 }
-function displayWeather(object) {
+function displayWeather(object,btnName) {
+    let lcationName = btnName.split(',')[0];
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    object.location.name.length > 8 ? document.getElementById("name").style.fontSize = "25px" : document.getElementById("name").style.fontSize = "50px";
-    document.getElementById('name').textContent = object.location.name;
+    changeLocationNameFontSize(lcationName);
+    document.getElementById('name').textContent = lcationName;
     document.getElementById('date').textContent = months[Number(object.location.localtime.slice(5, 7)) - 1] + ' ' + object.location.localtime.slice(8, 10) + ',' + object.location.localtime.slice(0, 4);
     document.getElementById('temp').textContent = Math.round(object.current.temp_c) + '°';
     document.getElementById('icon').src = object.current.condition.icon;
@@ -111,4 +101,31 @@ function clearSearch() {
     const searchElemnt = document.getElementById('search');
     searchElemnt.value = ""
     searchBorderModifier(false)
+}
+function backGroundChanger(obj)
+{
+    let currentHour = Number(obj.current.last_updated.split(' ')[1].split(':')[0]);
+    if (currentHour < 7) {
+        document.getElementById('main-container').style.backgroundImage = "url('night.jpg')";
+    }
+    else if (currentHour > 17) {
+        document.getElementById('main-container').style.backgroundImage = "url('night.jpg')";
+    }
+    else {
+        document.getElementById('main-container').style.backgroundImage = "url('day.jpg')";
+
+    }
+}
+function changeLocationNameFontSize(locationName){
+    const NameElement = document.getElementById("name");
+    if(locationName.length<9)
+    {
+        NameElement.style.fontSize = '50px'
+    }
+    else if(locationName.length<19){
+        NameElement.style.fontSize = '25px'
+    }
+    else{
+        NameElement.style.fontSize = '16px'
+    }
 }
