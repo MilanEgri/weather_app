@@ -35,7 +35,6 @@ function workOfSearchElement(chehcked) {
 }
 function clickEvent(event) {
     if (event.target.className == "location" || event.target.className == "location locationBottom") {
-        const countryCode = event.target.id;
         workingAPI(event.target.id,event.target.textContent)
         clearSearch();
     }
@@ -62,7 +61,7 @@ function displayWeatherForecast(object) {
         horizontal2Element.insertAdjacentHTML('beforeend', `<div class="forecast">
         <div class="forecastDay">${String(day).slice(0, 3)}</div>
         <img class="forecastIcon" src=${object.forecast.forecastday[i].day.condition.icon}></img>
-        <div class="forecastMinMax">${Math.round(object.forecast.forecastday[i].day.mintemp_c) + '°/' + Math.round(object.forecast.forecastday[i].day.maxtemp_c)}</div>
+        <div class="forecastMinMax">${Math.round(object.forecast.forecastday[i].day.mintemp_c) + '°/' + Math.round(object.forecast.forecastday[i].day.maxtemp_c)}°</div>
     </div>`)
     }
 }
