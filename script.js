@@ -1,6 +1,7 @@
 const apiKey = 'b22f2950ee874eeeae8124033232002';
 window.onload = () => {
     window.addEventListener("click", clickEvent);
+    startingLocation('London');
     const searchElemnt = document.getElementById('search');
     searchElemnt.addEventListener('input', () => {
         workOfSearchElement(searchElemnt);
@@ -35,26 +36,11 @@ function workOfSearchElement(chehcked) {
 function clickEvent(event) {
     if (event.target.className == "location" || event.target.className == "location locationBottom") {
         const countryCode = event.target.id;
-        fetch(`http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${countryCode}`)
-            .then((response) => response.json())
-            .then((data) => {
-                backGroundChanger(data)
-                displayWeather(data,event.target.textContent);
-            });
-        fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${countryCode}&days=1`)
-            .then((response) => response.json())
-            .then((data) => {
-                displayCurrentMinMax(data);
-            });
-        fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${countryCode}&days=7`)
-            .then((response) => response.json())
-            .then((data) => {
-                displayWeatherForecast(data);
-            });
+        workingAPI(event.target.id,event.target.textContent)
         clearSearch();
     }
 }
-function displayWeather(object,btnName) {
+function displayWeather(object, btnName) {
     let lcationName = btnName.split(',')[0];
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     changeLocationNameFontSize(lcationName);
@@ -102,8 +88,7 @@ function clearSearch() {
     searchElemnt.value = ""
     searchBorderModifier(false)
 }
-function backGroundChanger(obj)
-{
+function backGroundChanger(obj) {
     let currentHour = Number(obj.current.last_updated.split(' ')[1].split(':')[0]);
     if (currentHour < 7) {
         document.getElementById('main-container').style.backgroundImage = "url('night.jpg')";
@@ -116,16 +101,37 @@ function backGroundChanger(obj)
 
     }
 }
-function changeLocationNameFontSize(locationName){
+function changeLocationNameFontSize(locationName) {
     const NameElement = document.getElementById("name");
-    if(locationName.length<9)
-    {
+    if (locationName.length < 9) {
         NameElement.style.fontSize = '50px'
     }
-    else if(locationName.length<19){
+    else if (locationName.length < 19) {
         NameElement.style.fontSize = '25px'
     }
-    else{
+    else {
         NameElement.style.fontSize = '16px'
     }
+}
+function startingLocation(location){
+    workingAPI(location,location);
+}
+function workingAPI(locationCode,locationName){
+    const countryCode = locationCode;
+    fetch(`http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${countryCode}`)
+        .then((response) => response.json())
+        .then((data) => {
+            backGroundChanger(data)
+            displayWeather(data, locationName);
+        });
+    fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${countryCode}&days=1`)
+        .then((response) => response.json())
+        .then((data) => {
+            displayCurrentMinMax(data);
+        });
+    fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${countryCode}&days=7`)
+        .then((response) => response.json())
+        .then((data) => {
+            displayWeatherForecast(data);
+        });
 }
