@@ -38,6 +38,18 @@ function clickEvent(event) {
         fetch(`http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${countryCode}`)
             .then((response) => response.json())
             .then((data) => {
+                let currentHour = Number(data.current.last_updated.split(' ')[1].split(':')[0]);
+                if (currentHour < 7) {
+                    document.getElementById('main-container').style.backgroundImage = "url('night.jpg')";
+                }
+                else if (currentHour > 17) {
+                    document.getElementById('main-container').style.backgroundImage = "url('night.jpg')";
+                }
+                else {
+                    document.getElementById('main-container').style.backgroundImage = "url('day.jpg')";
+
+                }
+                console.log(currentHour);
                 displayWeather(data);
             });
         fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${countryCode}&days=1`)
@@ -63,7 +75,7 @@ function displayWeather(object) {
     document.getElementById('text').textContent = object.current.condition.text;
 }
 function displayCurrentMinMax(object) {
-    document.getElementById('minmax').textContent = Math.round(object.forecast.forecastday[0].day.mintemp_c) + '° / ' +Math.round( object.forecast.forecastday[0].day.maxtemp_c) + '°';
+    document.getElementById('minmax').textContent = Math.round(object.forecast.forecastday[0].day.mintemp_c) + '° / ' + Math.round(object.forecast.forecastday[0].day.maxtemp_c) + '°';
 }
 function displayWeatherForecast(object) {
     const horizontal2Element = document.getElementById('horizontal2');
